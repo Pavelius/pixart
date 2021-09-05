@@ -10,6 +10,9 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{d5ab30d4-dad6-428e-853d-6de783e98f35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{36f41d5c-3758-415f-8c2a-fab1b0bcd875}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="color.cpp">
@@ -63,6 +66,9 @@
     <ClCompile Include="surface_serial.cpp">
       <Filter>Support</Filter>
     </ClCompile>
+    <ClCompile Include="draw_interface.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h">
@@ -90,6 +96,9 @@
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="log.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="draw_interface.h">
       <Filter>Support</Filter>
     </ClInclude>
   </ItemGroup>

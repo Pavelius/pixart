@@ -163,12 +163,6 @@ int						aligned(unsigned state, int string_width);
 int						alignedh(const char* string, unsigned state);
 void					blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source);
 void					blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source, int width_source, int height_source);
-void					breakmodal(int result);
-void					breakparam();
-void					buttoncancel();
-void					buttonok();
-void					cbsetint();
-void					cbsetptr();
 void					circle(int radius);
 void					circlef(int radius);
 void					create(int width, int height, const char* caption);
@@ -200,8 +194,6 @@ void					rectx(); // Draw pointed rectangle border
 void					setclip(rect rc);
 inline void				setclip() { clipping.set(0, 0, getwidth(), getheight()); }
 void					setclipdf();
-void					setnext(fnevent v);
-void					setneedupdate();
 void					settimer(unsigned milleseconds);
 const char*				skiptr(const char* string);
 void					start();

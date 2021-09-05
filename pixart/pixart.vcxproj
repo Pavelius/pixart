@@ -143,6 +143,7 @@
     <ClCompile Include="crt.cpp" />
     <ClCompile Include="crt_translate.cpp" />
     <ClCompile Include="draw.cpp" />
+    <ClCompile Include="draw_interface.cpp" />
     <ClCompile Include="draw_text.cpp" />
     <ClCompile Include="draw_textf.cpp" />
     <ClCompile Include="io_stream.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="color.h" />
     <ClInclude Include="crt.h" />
     <ClInclude Include="draw.h" />
+    <ClInclude Include="draw_interface.h" />
     <ClInclude Include="io_stream.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="point.h" />

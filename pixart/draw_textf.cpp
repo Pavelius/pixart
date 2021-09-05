@@ -174,15 +174,14 @@ static const char* textfln(const char* p, color c1, int* max_width) {
 		}
 		// Отметим перевод строки и окончание строки
 		if(p[0] == 0 || p[0] == 10 || p[0] == 13) {
+			caret.x = x0;
 			caret.y += draw::texth();
 			p = skipcr(p);
 			break;
 		}
 	}
-	if(max_width) {
-		if(*max_width < (caret.x - x0))
-			*max_width = (caret.x - x0);
-	}
+	if(max_width)
+		*max_width = imax(*max_width, caret.x - x0);
 	return p;
 }
 

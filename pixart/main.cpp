@@ -1,27 +1,18 @@
 #include "draw.h"
+#include "draw_interface.h"
 
 using namespace draw;
 
 static void test_modal() {
-	while(ismodal()) {
-		width = 100;
-		height = 100;
-		caret.x = 50; caret.y = 50;
-		fore = colors::form;
-		rectf();
-		fore = colors::border;
-		rectb();
-		auto pb = gres("tavern15", "art\\scene");
-		image(0, 0, pb, 0, 0);
-		caret = {100, 100};
-		line(250, 200);
-		domodal();
-	}
+	clearwindow();
+	width = 200;
+	caret = {10, 10};
+	textf("»спользуй вс€ческие уведомлени€ чтобы получить нужный эффект.");
 }
 
 int main() {
 	initialize("Test Pixart Games");
-	test_modal();
+	startscene(test_modal);
 	return 0;
 }
 
