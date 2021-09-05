@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Support">
+      <UniqueIdentifier>{b137ccbf-d362-410f-a9f6-89c644ead52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logic">
+      <UniqueIdentifier>{bc675156-cf73-4192-a824-db4ea8475554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{d5ab30d4-dad6-428e-853d-6de783e98f35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="color.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="crt.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="draw.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="io_stream.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="stringbuilder.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="win_draw.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="win_io_file.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="draw_text.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="draw_textf.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="crt_translate.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="szdup.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="color.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="crt.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="draw.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="io_stream.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="point.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="rect.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="stringbuilder.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="win.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
