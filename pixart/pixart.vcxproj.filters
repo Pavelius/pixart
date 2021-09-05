@@ -54,6 +54,15 @@
     <ClCompile Include="szdup.cpp">
       <Filter>Support</Filter>
     </ClCompile>
+    <ClCompile Include="scale2x.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="resource_dynamic.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="surface_serial.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h">

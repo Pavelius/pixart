@@ -149,7 +149,10 @@
     <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="point.cpp" />
+    <ClCompile Include="resource_dynamic.cpp" />
+    <ClCompile Include="scale2x.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
+    <ClCompile Include="surface_serial.cpp" />
     <ClCompile Include="szdup.cpp" />
     <ClCompile Include="win_draw.cpp" />
     <ClCompile Include="win_io_file.cpp" />

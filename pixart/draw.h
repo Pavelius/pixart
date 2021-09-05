@@ -138,7 +138,7 @@ struct surface {
 	surface(int width, int height, int bpp);
 	surface(const char* url, color* pallette = 0);
 	~surface();
-	operator bool() const { return bits != 0; }
+	constexpr explicit operator bool() const { return bits != 0; }
 	static unsigned char* allocator(unsigned char* bits, unsigned size);
 	void				clear() { resize(0, 0, 0, true); }
 	void				convert(int bpp, color* pallette);
@@ -153,76 +153,67 @@ extern rect				clipping; // Clipping area
 extern fnevent			domodal;
 extern point			dragmouse, caret;
 extern color			fore, fore_stroke;
-extern int				width;
+extern int				width, height;
 extern const sprite*	font; // Currently selected font
 extern double			linw;
 extern char				link[4096];
 extern color*			palt;
 extern int				tab_pixels;
-int						aligned(int x, int width, unsigned state, int string_width);
-int						alignedh(const rect& rc, const char* string, unsigned state);
-void					bezier(int x0, int y0, int x1, int y1, int x2, int y2);
-void					bezierseg(int x0, int y0, int x1, int y1, int x2, int y2);
+int						aligned(unsigned state, int string_width);
+int						alignedh(const char* string, unsigned state);
 void					blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source);
 void					blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source, int width_source, int height_source);
-void					circle(int x, int y, int radius);
-void					circle(int x, int y, int radius, const color c1);
-void					circlef(int x, int y, int radius, const color c1, unsigned char alpha = 0xFF);
-void					create(int x, int y, int width, int height, unsigned flags, int bpp);
+void					breakmodal(int result);
+void					breakparam();
+void					buttoncancel();
+void					buttonok();
+void					cbsetint();
+void					cbsetptr();
+void					circle(int radius);
+void					circlef(int radius);
+void					create(int width, int height, const char* caption);
 bool					dragactive(const void* p);
 bool					dragactive();
 void					dragbegin(const void* p);
 void					execute(fnevent proc, long value = 0, long value2 = 0, const void* object = 0);
 int						getbpp();
+int						getresult();
 int						getheight();
 int						getwidth();
-void					getwindowpos(point& pos, point& size, unsigned* flags);
 void					glyph(int x, int y, int sym, unsigned flags);
-void					gradv(rect rc, const color c1, const color c2, int skip = 0);
-void					gradh(rect rc, const color c1, const color c2, int skip = 0);
 const sprite*			gres(const char* name, const char* folder = 0, point size = {});
-int						hittest(int x, int test_x, const char* string, int lenght);
-int						hittest(rect rc, const char* string, unsigned state, point mouse);
 bool					ishilite(const rect& rc);
+bool					ismodal();
 void					image(int x, int y, const sprite* e, int id, int flags, unsigned char alpha = 0xFF);
 void					image(int x, int y, const sprite* e, int id, int flags, unsigned char alpha, color* pal);
+void					initialize(const char* title);
 void					key2str(stringbuilder& sb, int key);
-void					line(int x1, int y1, int x2, int y2); // Draw line
-void					line(int x1, int y1, int x2, int y2, color c1); // Draw line
-inline void				line(point p1, point p2, color c1) { line(p1.x, p1.y, p2.x, p2.y, c1); }
-void					linet(int x1, int y1, int x2, int y2);
-inline void				linet(point p1, point p2) { linet(p1.x, p1.y, p2.x, p2.y); }
+void					line(int x2, int y2); // Draw line
+void					linet(int x2, int y2);
 void					pixel(int x, int y);
 void					pixel(int x, int y, unsigned char alpha);
 unsigned char*			ptr(int x, int y);
 int						rawinput();
-void					rectb(rect rc); // Draw rectangle border
-void					rectb(rect rc, color c1);
-void					rectb(rect rc, int radius);
-void					rectb(rect rc, color c1, int radius);
-void					rectb3d(rect rc); // Draw rectangle border
-void					rectf(rect rc); // Draw rectangle area. Right and bottom side is one pixel less.
-void					rectfe(rect rc, int radius, unsigned char alpha);
-void					rectf(rect rc, color c1);
-void					rectf(rect rc, color c1, unsigned char alpha);
-void					rectx(rect rc, color c1);
-void					set(void(*proc)(int& x, int& y, int x0, int x2, int* max_width, int& w, const char* id));
-void					setcaption(const char* string);
+void					rectb(); // Draw rectangle border
+void					rectf(); // Draw rectangle area. Right and bottom side is one pixel less.
+void					rectx(); // Draw pointed rectangle border
 void					setclip(rect rc);
 inline void				setclip() { clipping.set(0, 0, getwidth(), getheight()); }
+void					setclipdf();
+void					setnext(fnevent v);
+void					setneedupdate();
 void					settimer(unsigned milleseconds);
 const char*				skiptr(const char* string);
-void					spline(point* points, int n);
+void					start();
 void					stroke(int x, int y, const sprite* e, int id, int flags, unsigned char thin = 1, unsigned char* koeff = 0);
 void					syscursor(bool enable);
 void					sysredraw();
-void					text(int x, int y, const char* string, int count = -1, unsigned flags = 0);
-void					text(int x, int y, const char* string, int count, unsigned flags, int maximum_width, bool* clipped = 0);
-int						text(rect rc, const char* string, unsigned state = 0, int* max_width = 0);
-int						textc(int x, int y, int width, const char* string, int count = -1, unsigned flags = 0, bool* clipped = 0);
+void					text(const char* string, int count = -1, unsigned flags = 0);
+void					text(const char* string, int count, unsigned flags, int maximum_width, bool* clipped = 0);
+void					textb(const char* string, unsigned state, int* max_width = 0);
+void					textc(const char* string, int count = -1, unsigned flags = AlignLeft, bool* clipped = 0);
 int						textbc(const char* string, int width);
-int						texte(rect rc, const char* string, unsigned flags, int i1, int i2);
-int						textf(int x, int y, int width, const char* text, int* max_width = 0, int min_height = 0, int* cashe_height = 0, const char** cashe_string = 0);
+void					textf(const char* text, int* max_width = 0, int min_height = 0, int* cashe_height = 0, const char** cashe_string = 0);
 int						textf(rect& rc, const char* string);
 int						texth();
 int						texth(const char* string, int width);
@@ -230,8 +221,6 @@ int						textw(int sym);
 int						textw(const char* string, int count = -1);
 int						textw(rect& rc, const char* string);
 int						textw(const sprite* font);
-void					triangle(point v1, point v2, point v3);
-void					triangle(point v1, point v2, point v3, color c1);
 void					updatewindow();
 void					write(const char* url, unsigned char* bits, int width, int height, int bpp, int scanline, color* pallette);
 }

@@ -4,6 +4,8 @@
 
 using namespace draw;
 
+void scale2x(void* void_dst, unsigned dst_slice, const void* void_src, unsigned src_slice, unsigned width, unsigned height);
+
 #pragma pack(push)
 #pragma pack(1)
 static struct video_8t {
@@ -12,49 +14,53 @@ static struct video_8t {
 } video_descriptor;
 #pragma pack(pop)
 
+#define KZOOM 2
+
 static HWND		hwnd;
 static point	minimum;
 extern rect		sys_static_area;
 static bool		use_mouse = true;
+static surface	video_buffer;
 
 static struct sys_key_mapping {
 	unsigned    key;
 	unsigned    id;
-} sys_key_mapping_data[] = {{VK_CONTROL, Ctrl},
-{VK_MENU, Alt},
-{VK_SHIFT, Shift},
-{VK_LEFT, KeyLeft},
-{VK_RIGHT, KeyRight},
-{VK_UP, KeyUp},
-{VK_DOWN, KeyDown},
-{VK_PRIOR, KeyPageUp},
-{VK_NEXT, KeyPageDown},
-{VK_HOME, KeyHome},
-{VK_END, KeyEnd},
-{VK_BACK, KeyBackspace},
-{VK_DELETE, KeyDelete},
-{VK_RETURN, KeyEnter},
-{VK_ESCAPE, KeyEscape},
-{VK_SPACE, KeySpace},
-{VK_TAB, KeyTab},
-{VK_F1, F1},
-{VK_F2, F2},
-{VK_F3, F3},
-{VK_F4, F4},
-{VK_F5, F5},
-{VK_F6, F6},
-{VK_F7, F7},
-{VK_F8, F8},
-{VK_F9, F9},
-{VK_F10, F10},
-{VK_F11, F11},
-{VK_F12, F12},
-{VK_MULTIPLY, (unsigned)'*'},
-{VK_DIVIDE, (unsigned)'/'},
-{VK_ADD, (unsigned)'+'},
-{VK_SUBTRACT, (unsigned)'-'},
-{VK_OEM_COMMA, (unsigned)','},
-{VK_OEM_PERIOD, (unsigned)'.'},
+} sys_key_mapping_data[] = {
+	{VK_CONTROL, Ctrl},
+	{VK_MENU, Alt},
+	{VK_SHIFT, Shift},
+	{VK_LEFT, KeyLeft},
+	{VK_RIGHT, KeyRight},
+	{VK_UP, KeyUp},
+	{VK_DOWN, KeyDown},
+	{VK_PRIOR, KeyPageUp},
+	{VK_NEXT, KeyPageDown},
+	{VK_HOME, KeyHome},
+	{VK_END, KeyEnd},
+	{VK_BACK, KeyBackspace},
+	{VK_DELETE, KeyDelete},
+	{VK_RETURN, KeyEnter},
+	{VK_ESCAPE, KeyEscape},
+	{VK_SPACE, KeySpace},
+	{VK_TAB, KeyTab},
+	{VK_F1, F1},
+	{VK_F2, F2},
+	{VK_F3, F3},
+	{VK_F4, F4},
+	{VK_F5, F5},
+	{VK_F6, F6},
+	{VK_F7, F7},
+	{VK_F8, F8},
+	{VK_F9, F9},
+	{VK_F10, F10},
+	{VK_F11, F11},
+	{VK_F12, F12},
+	{VK_MULTIPLY, (unsigned)'*'},
+	{VK_DIVIDE, (unsigned)'/'},
+	{VK_ADD, (unsigned)'+'},
+	{VK_SUBTRACT, (unsigned)'-'},
+	{VK_OEM_COMMA, (unsigned)','},
+	{VK_OEM_PERIOD, (unsigned)'.'},
 };
 
 static int tokey(unsigned key) {
@@ -67,14 +73,14 @@ static int tokey(unsigned key) {
 
 static void set_cursor(cursor e) {
 	static void* data[] = {
-		LoadCursorA(0, (char*)32512),//IDC_ARROW
-		LoadCursorA(0, (char*)32649),//IDC_HAND
-		LoadCursorA(0, (char*)32644),//IDC_SIZEWE
-		LoadCursorA(0, (char*)32645),//IDC_SIZENS
-		LoadCursorA(0, (char*)32646),//IDC_SIZEALL
-		LoadCursorA(0, (char*)32648),//IDC_NO
-		LoadCursorA(0, (char*)32513),//IDC_IBEAM
-		LoadCursorA(0, (char*)32514),//IDC_WAIT
+		LoadCursorA(0, (char*)32512), //IDC_ARROW
+		LoadCursorA(0, (char*)32649), //IDC_HAND
+		LoadCursorA(0, (char*)32644), //IDC_SIZEWE
+		LoadCursorA(0, (char*)32645), //IDC_SIZENS
+		LoadCursorA(0, (char*)32646), //IDC_SIZEALL
+		LoadCursorA(0, (char*)32648), //IDC_NO
+		LoadCursorA(0, (char*)32513), //IDC_IBEAM
+		LoadCursorA(0, (char*)32514), //IDC_WAIT
 	};
 	SetCursor(data[static_cast<int>(e)]);
 }
@@ -181,35 +187,22 @@ static int handle(MSG& msg) {
 }
 
 static LRESULT CALLBACK WndProc(HWND hwnd, unsigned uMsg, WPARAM wParam, LPARAM lParam) {
-	MSG msg;
 	switch(uMsg) {
 	case WM_ERASEBKGND:
-		if(draw::canvas) {
-			RECT rc; GetClientRect(hwnd, &rc);
+		if(video_buffer) {
 			video_descriptor.bmp.bmiHeader.biSize = sizeof(video_descriptor.bmp.bmiHeader);
-			video_descriptor.bmp.bmiHeader.biWidth = draw::canvas->width;
-			video_descriptor.bmp.bmiHeader.biHeight = -draw::canvas->height;
-			video_descriptor.bmp.bmiHeader.biBitCount = draw::canvas->bpp;
+			video_descriptor.bmp.bmiHeader.biWidth = video_buffer.width;
+			video_descriptor.bmp.bmiHeader.biHeight = -video_buffer.height;
+			video_descriptor.bmp.bmiHeader.biBitCount = video_buffer.bpp;
 			video_descriptor.bmp.bmiHeader.biPlanes = 1;
-			if(rc.right != draw::canvas->width || rc.bottom != draw::canvas->height)
-				StretchDIBits((void*)wParam,
-					0, 0, rc.right, rc.bottom,
-					0, 0, draw::canvas->width, draw::canvas->height,
-					draw::canvas->bits, &video_descriptor.bmp, DIB_RGB_COLORS, SRCCOPY);
-			else
-				SetDIBitsToDevice((void*)wParam,
-					0, 0, rc.right, rc.bottom,
-					0, 0, 0, draw::canvas->height,
-					draw::canvas->bits, &video_descriptor.bmp, DIB_RGB_COLORS);
+			SetDIBitsToDevice((void*)wParam,
+				0, 0, video_buffer.width, video_buffer.height,
+				0, 0, 0, video_buffer.height,
+				video_buffer.bits, &video_descriptor.bmp, DIB_RGB_COLORS);
 		}
 		return 1;
 	case WM_CLOSE:
 		PostQuitMessage(-1);
-		return 0;
-	case WM_EXITSIZEMOVE:
-	case WM_SIZE:
-		if(!PeekMessageA(&msg, hwnd, WM_MY_SIZE, WM_MY_SIZE, 0))
-			PostMessageA(hwnd, WM_MY_SIZE, 0, 0);
 		return 0;
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)lParam)->ptMinTrackSize.x = minimum.x;
@@ -239,31 +232,15 @@ static const char* register_class(const char* class_name) {
 	return class_name;
 }
 
-void draw::getwindowpos(point& pos, point& size, unsigned* flags) {
-	RECT rc;
-	GetClientRect(hwnd, &rc);
-	size.x = (short)(rc.right - rc.left);
-	size.y = (short)(rc.bottom - rc.top);
-	GetWindowRect(hwnd, &rc);
-	pos.x = (short)rc.left;
-	pos.y = (short)rc.top;
-	if(flags) {
-		WINDOWPLACEMENT wp;
-		GetWindowPlacement(hwnd, &wp);
-		*flags = 0;
-		auto wf = GetWindowLongA(hwnd, GWL_STYLE);
-		if(wp.showCmd==SW_SHOWMAXIMIZED)
-			*flags |= WFMaximized;
-		if(wf&WS_THICKFRAME)
-			*flags |= WFResize;
-		if(wf&WS_MINIMIZEBOX)
-			*flags |= WFMinmax;
-	}
-}
-
 void draw::updatewindow() {
-	if(!hwnd)
+	if(!hwnd || !draw::canvas)
 		return;
+	if(video_buffer.height != draw::canvas->height
+		|| video_buffer.width != draw::canvas->width)
+		video_buffer.resize(draw::canvas->width * KZOOM, draw::canvas->height * KZOOM, 32, true);
+	scale2x(video_buffer.ptr(0, 0), video_buffer.scanline,
+		draw::canvas->ptr(0, 0), draw::canvas->scanline,
+		draw::canvas->width, draw::canvas->height);
 	if(!IsWindowVisible(hwnd))
 		ShowWindow(hwnd, SW_SHOW);
 	InvalidateRect(hwnd, 0, 1);
@@ -274,24 +251,15 @@ void draw::syscursor(bool enable) {
 	ShowCursor(enable ? 1 : 0);
 }
 
-void draw::create(int x, int y, int width, int height, unsigned flags, int bpp) {
-	if(!bpp)
-		bpp = draw::canvas->bpp;
+void draw::create(int canvas_width, int canvas_height, const char* caption) {
+	int width = canvas_width * KZOOM;
+	int height = canvas_height * KZOOM;
 	if(!width)
 		width = (GetSystemMetrics(SM_CXFULLSCREEN) / 3) * 2;
 	if(!height)
 		height = (GetSystemMetrics(SM_CYFULLSCREEN) / 3) * 2;
 	// custom
-	unsigned dwStyle = WS_CAPTION | WS_SYSMENU; // Windows Style;
-	if(flags&WFResize)
-		dwStyle |= WS_THICKFRAME;
-	else
-		dwStyle |= WS_BORDER;
-	if(flags&WFMinmax) {
-		dwStyle |= WS_MINIMIZEBOX;
-		if(flags&WFResize)
-			dwStyle |= WS_MAXIMIZEBOX;
-	}
+	unsigned dwStyle = WS_CAPTION | WS_SYSMENU | WS_BORDER; // Windows Style;
 	RECT MinimumRect = {0, 0, width, height};
 	AdjustWindowRectEx(&MinimumRect, dwStyle, 0, 0);
 	minimum.x = 800;
@@ -300,16 +268,14 @@ void draw::create(int x, int y, int width, int height, unsigned flags, int bpp) 
 	minimum.y = 600;
 	if(minimum.y > height)
 		minimum.y = height;
-	if(x == -1)
-		x = (GetSystemMetrics(SM_CXFULLSCREEN) - minimum.x) / 2;
-	if(y == -1)
-		y = (GetSystemMetrics(SM_CYFULLSCREEN) - minimum.y) / 2;
+	int x = (GetSystemMetrics(SM_CXFULLSCREEN) - minimum.x) / 2;
+	int y = (GetSystemMetrics(SM_CYFULLSCREEN) - minimum.y) / 2;
 	// Update current surface
 	if(draw::canvas)
-		draw::canvas->resize(width, height, bpp, true);
+		draw::canvas->resize(canvas_width, canvas_height, 32, true);
 	setclip();
 	// Create The Window
-	hwnd = CreateWindowExA(0, register_class("CFaceWindow"), 0, dwStyle,
+	hwnd = CreateWindowExA(0, register_class("pixart"), caption, dwStyle,
 		x, y,
 		MinimumRect.right - MinimumRect.left,
 		MinimumRect.bottom - MinimumRect.top,
@@ -317,8 +283,6 @@ void draw::create(int x, int y, int width, int height, unsigned flags, int bpp) 
 	if(!hwnd)
 		return;
 	int cmdShow = SW_SHOWNORMAL;
-	if(flags&WFMaximized)
-		cmdShow = SW_SHOWMAXIMIZED;
 	ShowWindow(hwnd, cmdShow);
 	// Update mouse coordinates
 	POINT pt; GetCursorPos(&pt);
@@ -369,10 +333,6 @@ int draw::rawinput() {
 		}
 	}
 	return 0;
-}
-
-void draw::setcaption(const char* string) {
-	SetWindowTextA(hwnd, string);
 }
 
 void draw::settimer(unsigned milleseconds) {
