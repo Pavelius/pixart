@@ -36,8 +36,6 @@ color*				draw::palt;
 rect				draw::clipping;
 char				draw::link[4096];
 hoti				draw::hot;
-// Hot keys and menus
-rect				sys_static_area;
 // Locale draw variables
 static draw::surface default_surface;
 draw::surface*		draw::canvas = &default_surface;
@@ -50,6 +48,10 @@ sprite*				metrics::font = (sprite*)loadb("art/fonts/font.pma");
 sprite*				metrics::h1 = (sprite*)loadb("art/fonts/h1.pma");
 sprite*				metrics::h2 = (sprite*)loadb("art/fonts/h2.pma");
 sprite*				metrics::h3 = (sprite*)loadb("art/fonts/h3.pma");
+// Modal
+static bool			break_modal;
+static long			break_result;
+static fnevent		next_proc;
 
 long distance(point p1, point p2) {
 	auto dx = p1.x - p2.x;
@@ -841,18 +843,19 @@ void draw::pixel(int x, int y, unsigned char a) {
 	}
 }
 
-void draw::line(int x1, int y1) {
+void draw::line(int x, int y) {
 	if(!canvas)
 		return;
-	if(caret.y == y1) {
-		int x0 = caret.x, y0 = caret.y;
+	if(caret.y == y) {
+		int x0 = caret.x, y0 = caret.y, x1 = x, y1 = y;
 		if(correct(x0, y0, x1, y1, clipping, false))
 			set32(canvas->ptr(x0, y0), canvas->scanline, x1 - x0 + 1, 1, set32r);
-	} else if(caret.x == x1) {
-		int x0 = caret.x, y0 = caret.y;
+	} else if(caret.x == x) {
+		int x0 = caret.x, y0 = caret.y, x1 = x, y1 = y;
 		if(correct(x0, y0, x1, y1, clipping, false))
 			set32(canvas->ptr(x0, y0), canvas->scanline, 1, y1 - y0 + 1, set32r);
 	} else {
+		int x1 = x, y1 = y;
 		int x0 = caret.x, y0 = caret.y;
 		int dx = iabs(x1 - x0), sx = x0 < x1 ? 1 : -1;
 		int dy = -iabs(y1 - y0), sy = y0 < y1 ? 1 : -1;
@@ -870,8 +873,8 @@ void draw::line(int x1, int y1) {
 			}
 		}
 	}
-	caret.x = x1;
-	caret.y = y1;
+	caret.x = x;
+	caret.y = y;
 }
 
 void draw::linet(int x1, int y1) {
@@ -910,10 +913,10 @@ void draw::rectf() {
 }
 
 void draw::rectx() {
-	linet(caret.x, caret.y + height);
-	linet(caret.x + width, caret.y);
-	linet(caret.x, caret.y - height);
-	linet(caret.x - width, caret.y);
+	linet(caret.x, caret.y + (height - 1));
+	linet(caret.x + (width - 1), caret.y);
+	linet(caret.x, caret.y - (height - 1));
+	linet(caret.x - (width - 1), caret.y);
 }
 
 void draw::circlef(int r) {
@@ -1031,7 +1034,6 @@ static void intersect_rect(rect& r1, const rect& r2) {
 bool draw::ishilite(const rect& rc) {
 	if(hot.key == InputNoUpdate)
 		return false;
-	intersect_rect(sys_static_area, rc);
 	if(dragactive())
 		return false;
 	if(!hot.mouse.in(clipping))
@@ -1738,4 +1740,131 @@ void draw::key2str(stringbuilder& sb, int key) {
 		}
 		break;
 	}
+}
+
+void draw::clearwindow() {
+	auto push_caret = caret;
+	auto push_width = width;
+	auto push_height = height;
+	auto push_fore = fore;
+	caret = {0, 0};
+	fore = colors::window;
+	width = getwidth();
+	height = getheight();
+	rectf();
+	fore = push_fore;
+	caret = push_caret;
+	width = push_width;
+	height = push_height;
+}
+
+void draw::startscene(fnevent visualize) {
+	if(!visualize)
+		return;
+	while(ismodal()) {
+		visualize();
+		domodal();
+	}
+}
+
+void draw::breakmodal(int result) {
+	break_modal = true;
+	break_result = result;
+}
+
+void draw::buttoncancel() {
+	breakmodal(0);
+}
+
+void draw::buttonok() {
+	breakmodal(1);
+}
+
+void draw::breakparam() {
+	breakmodal(hot.param);
+}
+
+int draw::getresult() {
+	return break_result;
+}
+
+void draw::cbsetint() {
+	auto p = (int*)hot.object;
+	*p = hot.param;
+}
+
+void draw::cbsetptr() {
+	auto p = (void**)hot.object;
+	*p = (void*)hot.param;
+}
+
+void draw::setnext(fnevent v) {
+	next_proc = v;
+}
+
+void draw::start() {
+	while(next_proc) {
+		auto p = next_proc;
+		next_proc = 0; p();
+	}
+}
+
+void draw::setneedupdate() {
+	hot.key = InputNeedUpdate;
+}
+
+void draw::execute(fnevent proc, long value, long value2, const void* object) {
+	domodal = proc;
+	hot.key = 0;
+	hot.param = value;
+	hot.param2 = value2;
+	hot.object = object;
+}
+
+static void standart_domodal() {
+	//before_input->execute();
+	draw::hot.key = draw::rawinput();
+	if(!draw::hot.key)
+		exit(0);
+	//after_input->execute();
+}
+
+bool draw::ismodal() {
+	hot.cursor = cursor::Arrow;
+	hot.hilite.clear();
+	if(hot.key == InputNeedUpdate)
+		hot.key = InputUpdate;
+	else
+		domodal = standart_domodal;
+	//before_modal->execute();
+	if(!next_proc && !break_modal)
+		return true;
+	break_modal = false;
+	//leave_modal->execute();
+	return false;
+}
+
+static void set_dark_theme() {
+	colors::window = color(32, 32, 32);
+	colors::active = color(172, 128, 0);
+	colors::border = color(73, 73, 80);
+	colors::button = color(0, 122, 204);
+	colors::form = color(45, 45, 48);
+	colors::text = color(255, 255, 255);
+	colors::special = color(255, 244, 32);
+	colors::border = color(63, 63, 70);
+	colors::tips::text = color(255, 255, 255);
+	colors::tips::back = color(100, 100, 120);
+	colors::h1 = colors::text.mix(colors::button, 64);
+	colors::h2 = colors::text.mix(colors::button, 96);
+	colors::h3 = colors::text.mix(colors::button, 128);
+}
+
+void draw::initialize(const char* title) {
+	set_dark_theme();
+	draw::width = 120;
+	draw::font = metrics::font;
+	draw::fore = colors::text;
+	draw::fore_stroke = colors::blue;
+	draw::create(400, 300, title);
 }

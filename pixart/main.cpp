@@ -1,18 +1,12 @@
 #include "draw.h"
-#include "draw_interface.h"
 
-using namespace draw;
-
-static void test_modal() {
-	clearwindow();
-	width = 200;
-	caret = {10, 10};
-	textf("»спользуй вс€ческие уведомлени€ чтобы получить нужный эффект.");
-}
+void load_buffer();
+void zoom_editor();
 
 int main() {
-	initialize("Test Pixart Games");
-	startscene(test_modal);
+	draw::initialize("Test Pixart Games");
+	load_buffer();
+	draw::startscene(zoom_editor);
 	return 0;
 }
 

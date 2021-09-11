@@ -96,8 +96,8 @@ static int handle(MSG& msg) {
 		tm.hwndTrack = hwnd;
 		tm.dwHoverTime = HOVER_DEFAULT;
 		TrackMouseEvent(&tm);
-		hot.mouse.x = LOWORD(msg.lParam);
-		hot.mouse.y = HIWORD(msg.lParam);
+		hot.mouse.x = LOWORD(msg.lParam) / KZOOM;
+		hot.mouse.y = HIWORD(msg.lParam) / KZOOM;
 		if(draw::dragactive())
 			return MouseMove;
 		return MouseMove;
@@ -106,10 +106,10 @@ static int handle(MSG& msg) {
 			break;
 		GetCursorPos(&pt);
 		ScreenToClient(msg.hwnd, &pt);
-		hot.mouse.x = (short)pt.x;
+		hot.mouse.x = (short)pt.x / KZOOM;
 		if(hot.mouse.x < 0)
 			hot.mouse.x = -10000;
-		hot.mouse.y = (short)pt.y;
+		hot.mouse.y = (short)pt.y / KZOOM;
 		if(hot.mouse.y < 0)
 			hot.mouse.y = -10000;
 		return MouseMove;
@@ -265,8 +265,8 @@ void draw::create(int canvas_width, int canvas_height, const char* caption) {
 	// Update mouse coordinates
 	POINT pt; GetCursorPos(&pt);
 	ScreenToClient(hwnd, &pt);
-	hot.mouse.x = (short)pt.x;
-	hot.mouse.y = (short)pt.y;
+	hot.mouse.x = (short)pt.x / KZOOM;
+	hot.mouse.y = (short)pt.y / KZOOM;
 }
 
 void draw::sysredraw() {

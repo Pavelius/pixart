@@ -66,8 +66,8 @@
     <ClCompile Include="surface_serial.cpp">
       <Filter>Support</Filter>
     </ClCompile>
-    <ClCompile Include="draw_interface.cpp">
-      <Filter>Support</Filter>
+    <ClCompile Include="editor.cpp">
+      <Filter>Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +96,6 @@
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="log.h">
-      <Filter>Support</Filter>
-    </ClInclude>
-    <ClInclude Include="draw_interface.h">
       <Filter>Support</Filter>
     </ClInclude>
   </ItemGroup>

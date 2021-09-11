@@ -163,8 +163,15 @@ int						aligned(unsigned state, int string_width);
 int						alignedh(const char* string, unsigned state);
 void					blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source);
 void					blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source, int width_source, int height_source);
+void					breakmodal(int result);
+void					breakparam();
+void					buttoncancel();
+void					buttonok();
+void					cbsetint();
+void					cbsetptr();
 void					circle(int radius);
 void					circlef(int radius);
+void					clearwindow();
 void					create(int width, int height, const char* caption);
 bool					dragactive(const void* p);
 bool					dragactive();
@@ -177,6 +184,7 @@ int						getwidth();
 void					glyph(int x, int y, int sym, unsigned flags);
 const sprite*			gres(const char* name, const char* folder = 0, point size = {});
 bool					ishilite(const rect& rc);
+inline bool				ishilite() { return ishilite({caret.x, caret.y, caret.x + width - 1, caret.y + height - 1}); }
 bool					ismodal();
 void					image(int x, int y, const sprite* e, int id, int flags, unsigned char alpha = 0xFF);
 void					image(int x, int y, const sprite* e, int id, int flags, unsigned char alpha, color* pal);
@@ -194,9 +202,12 @@ void					rectx(); // Draw pointed rectangle border
 void					setclip(rect rc);
 inline void				setclip() { clipping.set(0, 0, getwidth(), getheight()); }
 void					setclipdf();
+void					setneedupdate();
+void					setnext(fnevent v);
 void					settimer(unsigned milleseconds);
 const char*				skiptr(const char* string);
 void					start();
+void					startscene(fnevent fn);
 void					stroke(int x, int y, const sprite* e, int id, int flags, unsigned char thin = 1, unsigned char* koeff = 0);
 void					syscursor(bool enable);
 void					sysredraw();
