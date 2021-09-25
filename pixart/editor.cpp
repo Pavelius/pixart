@@ -22,7 +22,7 @@ static void color_picker() {
 	auto push_fore = fore;
 	for(auto y1 = caret.y; y1 < y2; y1++) {
 		for(auto x1 = caret.x; x1 < x2; x1++) {
-			fore = color(x1*4, y1*4, 0);
+			fore = color(x1 * 4, y1 * 4, 0);
 			pixel(x1, y1);
 			if(hot.mouse.x == x1 && hot.mouse.y == y1) {
 				if((hot.key == MouseLeft || hot.key == MouseMove) && hot.pressed && fore != main_color)
@@ -78,7 +78,7 @@ static void zoom_view() {
 					fore = colors::black;
 				select_rect();
 				fore = push_fore;
-				if((hot.key == MouseLeft || hot.key == MouseMove) && hot.pressed && fore!=main_color)
+				if((hot.key == MouseLeft || hot.key == MouseMove) && hot.pressed && fore != main_color)
 					execute(cbsetint, *((int*)&main_color), 0, buffer.ptr(x, y));
 			}
 			caret.x += width;
@@ -89,6 +89,36 @@ static void zoom_view() {
 	height = push_height;
 	width = push_width;
 	caret = push_caret;
+}
+
+typedef void(*fnwidget)(const char* format);
+
+static void button(const char* format) {
+	const int padding = 2;
+	auto push_caret = caret;
+	auto push_fore = fore;
+	height = texth() + padding * 2;
+	width = textw(format) + padding * 2;
+	fore = colors::button;
+	rectf();
+	fore = colors::border;
+	rectb();
+	fore = push_fore;
+	caret.x += padding + 1;
+	caret.y += padding + 2;
+	if(format)
+		text(format);
+	caret = push_caret;
+}
+
+static void horizontal(fnwidget proc, const char* format, void* source, int bit) {
+	auto push_width = width;
+	auto push_height = height;
+	proc(format);
+	caret.x += width;
+	caret.x += 2;
+	height = push_height;
+	width = push_width;
 }
 
 static void test_text() {
@@ -107,13 +137,23 @@ void load_buffer() {
 	blit(buffer, 0, 0, buffer.width, buffer.height, 0, *canvas, 0, 0);
 }
 
+static void test_widgets() {
+	auto push_fore = fore;
+	fore = colors::text;
+	horizontal(button, "Атаковать", 0, 0);
+	horizontal(button, "Подкупить", 0, 0);
+	horizontal(button, "Изгнать", 0, 0);
+	horizontal(button, "Усыпить", 0, 0);
+	push_fore = fore;
+}
+
 void zoom_editor() {
 	clearwindow();
 	auto push_caret = caret;
 	caret = {64, 0}; zoom_view();
 	caret = {0, 64}; color_picker();
 	caret = {0, 128}; palt = (color*)canvas->ptr(0, 0); pallette_view();
-	caret = {2, 260}; test_text();
+	caret = {2, 260}; test_widgets();
 	caret = {0, 0}; normal_view();
 	caret = push_caret;
 }
