@@ -24,10 +24,11 @@ void draw::glyph(int x, int y, int sym, unsigned flags) {
 	static unsigned char koeff[] = {128, 160};
 	int id = font->glyph(sym);
 	if(sym >= 0x21) {
-		if(flags&TextStroke) {
+		if(flags & TextStroke) {
 			color push_fore = fore;
 			fore = fore_stroke;
-			stroke(x, y + font->ascend, font, id, flags, 2, koeff);
+			//stroke(x, y + font->ascend, font, id, flags, 2, koeff);
+			image(x + 1, y + font->ascend + 1, font, id, flags, 0);
 			fore = push_fore;
 		}
 		image(x, y + font->ascend, font, id, flags, 0);

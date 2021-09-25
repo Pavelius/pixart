@@ -2,11 +2,16 @@
 
 void load_buffer();
 void zoom_editor();
+void main_util();
+void sprite_viewer();
 
 int main() {
+#ifdef _DEBUG
+	main_util();
+#endif // _DEBUG
 	draw::initialize("Test Pixart Games");
 	load_buffer();
-	draw::startscene(zoom_editor);
+	draw::startscene(sprite_viewer);
 	return 0;
 }
 

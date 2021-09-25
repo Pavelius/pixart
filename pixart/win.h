@@ -548,7 +548,9 @@ typedef void(CALLBACK *PIMAGE_TLS_CALLBACK)(void* DllHandle, unsigned long Reaso
 #define FF_SCRIPT		64
 #define FF_SWISS		32
 
-#define GGO_GRAY8_BITMAP	6
+#define GGO_BITMAP 1
+#define GGO_NATIVE 2
+#define GGO_GRAY8_BITMAP 6
 
 #define INT_MIN     (-2147483647 - 1) // minimum (signed) int value
 
@@ -848,6 +850,11 @@ struct TEXTMETRICA
 	BYTE tmPitchAndFamily;
 	BYTE tmCharSet;
 };
+struct KERNINGPAIR {
+	WORD wFirst;
+	WORD wSecond;
+	int  iKernAmount;
+};
 
 DLL int WINAPI				AdjustWindowRectEx(RECT*, unsigned, int, unsigned);
 DLL int WINAPI				AppendMenuA(void*, UINT, unsigned, const char*);
@@ -859,6 +866,7 @@ DLL int WINAPI				CloseHandle(void* hObject);
 WINGDIAPI void* WINAPI		CreateCompatibleDC(void*);
 DLL int WINAPI				CreateDirectoryA(const char* lpPathName, void* lpSecurityAttributes);
 DLL void* WINAPI			CreateFileA(const char* lpFileName, unsigned dwDesiredAccess, unsigned dwShareMode, void* lpSecurityAttributes, unsigned dwCreationDisposition, unsigned dwFlagsAndAttributes, void* hTemplateFile);
+DLL int WINAPI				GetKerningPairsA(HDC hdc, DWORD nPairs, KERNINGPAIR* lpKernPair);
 DLL int WINAPI				GetFullPathNameA(const char* lpFileName, unsigned nBufferLength, char* lpBuffer, char** lpFilePart);
 WINGDIAPI void*	WINAPI		CreateFontA(int, int, int, int, int, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, const char*);
 WINGDIAPI void*	WINAPI		CreateFontW(int, int, int, int, int, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, DWORD, const wchar_t*);

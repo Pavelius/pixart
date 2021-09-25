@@ -149,6 +149,18 @@ static void raw832(unsigned char* d, int d_scan, unsigned char* s, int s_scan, i
 	}
 }
 
+static void rawbit(unsigned char* d, int d_scan, unsigned char* s, int s_scan, int x1, int x2, int height) {
+	const int cbd = 4;
+	while(height-- > 0) {
+		for(auto i = x1; i < x2; i++) {
+			if(s[i >> 3] & (0x80 >> (i & 0x7)))
+				((color*)d)[i] = fore;
+		}
+		s += s_scan;
+		d += d_scan;
+	}
+}
+
 static void raw832m(unsigned char* d, int d_scan, unsigned char* s, int s_scan, int width, int height, const color* pallette) {
 	const int cbd = 4;
 	while(height-- > 0) {
@@ -1160,6 +1172,13 @@ void draw::text(const char* string, int count, unsigned flags) {
 	}
 }
 
+void draw::textln(const char* string, int count, unsigned flags) {
+	auto push_caret = caret;
+	text(string, count, flags);
+	caret = push_caret;
+	caret.y += texth();
+}
+
 void draw::text(const char* string, int count, unsigned flags, int maximum_width, bool* clipped) {
 	if(clipped)
 		*clipped = false;
@@ -1322,6 +1341,7 @@ void draw::image(int x, int y, const sprite* e, int id, int flags, unsigned char
 	}
 	if(y >= y2)
 		return;
+	int x1;
 	int wd = (flags & ImageMirrorV) ? -canvas->scanline : canvas->scanline;
 	int sy = (flags & ImageMirrorV) ? y2 - 1 : y;
 	switch(f.encode) {
@@ -1369,6 +1389,18 @@ void draw::image(int x, int y, const sprite* e, int id, int flags, unsigned char
 				pal);
 		else
 			raw832(ptr(x, y), wd, s, f.sx, x2 - x, y2 - y, pal);
+		break;
+	case sprite::BIT:
+		x1 = x;
+		if(x < clipping.x1) {
+			s += clipping.x1 - x;
+			x1 = clipping.x1;
+		}
+		if(x2 > clipping.x2)
+			x2 = clipping.x2;
+		if(x1 >= x2)
+			return;
+		rawbit(ptr(x, y), wd, s, (f.sx + 7) / 8, x1 - x, x2 - x, y2 - y);
 		break;
 	case sprite::RLE8:
 		if(!f.pallette || (flags & ImagePallette))

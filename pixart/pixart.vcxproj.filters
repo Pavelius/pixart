@@ -10,6 +10,9 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{d5ab30d4-dad6-428e-853d-6de783e98f35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{1bc9e556-0056-40b7-b784-96b830af30b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="color.cpp">
@@ -66,6 +69,27 @@
     <ClCompile Include="editor.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
+    <ClCompile Include="font_util.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="main_util.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_util.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="bstream.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="png.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="zip.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="scenes.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h">
@@ -93,6 +117,15 @@
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="log.h">
+      <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="font_util.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_util.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="bstream.h">
       <Filter>Support</Filter>
     </ClInclude>
   </ItemGroup>
