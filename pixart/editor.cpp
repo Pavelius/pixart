@@ -132,8 +132,8 @@ static void test_text() {
 	fore = colors::text;
 	fore_stroke = colors::black;
 	//textf("Длинная строка, которая будет отображена на экране монитора и будет [использовать] форматирование.");
-	textln("Руфус: Что здесь нарисовано? Кто-то знает?", -1, TextStroke);
-	textln("Белла: Я знаю. Это легендарный длинный меч +5", -1, TextStroke);
+	textln("Руфус: Что здесь нарисовано? Кто-то знает?", -1, 0);
+	textln("Белла: Я знаю. Это легендарный длинный меч +5", -1, 0);
 	fore = push_fore;
 	height = push_height;
 	width = push_width;
@@ -183,6 +183,6 @@ void zoom_editor() {
 	caret = {0, 64}; color_picker();
 	caret = {0, 128}; palt = (color*)canvas->ptr(0, 0); pallette_view();
 	caret = {0, 0}; normal_view();
-	caret = {2, 260}; test_button();
+	caret = {2, 260}; test_text();
 	caret = push_caret;
 }
