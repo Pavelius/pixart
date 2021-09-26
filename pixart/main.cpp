@@ -11,7 +11,7 @@ int main() {
 #endif // _DEBUG
 	draw::initialize("Test Pixart Games");
 	load_buffer();
-	draw::startscene(sprite_viewer);
+	draw::startscene(zoom_editor);
 	return 0;
 }
 

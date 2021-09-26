@@ -1861,6 +1861,9 @@ static void standart_domodal() {
 	//after_input->execute();
 }
 
+void focus_before_modal();
+void focus_leave_modal();
+
 bool draw::ismodal() {
 	hot.cursor = cursor::Arrow;
 	hot.hilite.clear();
@@ -1868,11 +1871,11 @@ bool draw::ismodal() {
 		hot.key = InputUpdate;
 	else
 		domodal = standart_domodal;
-	//before_modal->execute();
+	focus_before_modal();
 	if(!next_proc && !break_modal)
 		return true;
 	break_modal = false;
-	//leave_modal->execute();
+	focus_leave_modal();
 	return false;
 }
 

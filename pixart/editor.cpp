@@ -139,6 +139,12 @@ static void test_text() {
 	width = push_width;
 }
 
+static void test_button() {
+	width = 32;
+	fore = colors::text;
+	buttonf("Test", 0);
+}
+
 void load_buffer() {
 	buffer.resize(32, 32, 32, true);
 	image(0, 0, gres("tavern15", "art/scene"), 0, 0);
@@ -176,7 +182,7 @@ void zoom_editor() {
 	caret = {64, 0}; zoom_view();
 	caret = {0, 64}; color_picker();
 	caret = {0, 128}; palt = (color*)canvas->ptr(0, 0); pallette_view();
-	caret = {2, 260}; test_text();
 	caret = {0, 0}; normal_view();
+	caret = {2, 260}; test_button();
 	caret = push_caret;
 }

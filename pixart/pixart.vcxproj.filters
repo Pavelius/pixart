@@ -90,6 +90,12 @@
     <ClCompile Include="scenes.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
+    <ClCompile Include="draw_controls.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="draw_focus.cpp">
+      <Filter>Support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="color.h">

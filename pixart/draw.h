@@ -228,3 +228,14 @@ int						textw(const sprite* font);
 void					updatewindow();
 void					write(const char* url, unsigned char* bits, int width, int height, int bpp, int scanline, color* pallette);
 }
+namespace draw {
+bool					addfocused(const void* value, unsigned bits = 0, bool force_focused = false);
+void					blockfocuskeys();
+bool					isfocused();
+bool					isfocused(const void* value, unsigned bits = 0);
+void					focusinput();
+void					setfocus(const void* value, unsigned bits = 0, bool instant = false);
+}
+namespace draw {
+bool					buttonf(const char* title, const void* focus, unsigned focus_bits = 0);
+}
