@@ -41,7 +41,7 @@ bool draw::buttonf(const char* title, const void* focus, unsigned focus_bits) {
 	if(title) {
 		auto push_caret = caret;
 		caret.x += padding;
-		caret.y += padding;
+		caret.y += padding - 1;
 		text(title);
 		caret = push_caret;
 	}

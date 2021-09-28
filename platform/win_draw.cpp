@@ -229,7 +229,11 @@ void draw::syscursor(bool enable) {
 	ShowCursor(enable ? 1 : 0);
 }
 
-void draw::create(int canvas_width, int canvas_height, const char* caption) {
+void draw::setcaption(const char* v) {
+
+}
+
+void draw::create(int canvas_width, int canvas_height) {
 	int width = canvas_width * KZOOM;
 	int height = canvas_height * KZOOM;
 	if(!width)
@@ -253,7 +257,7 @@ void draw::create(int canvas_width, int canvas_height, const char* caption) {
 		draw::canvas->resize(canvas_width, canvas_height, 32, true);
 	setclip();
 	// Create The Window
-	hwnd = CreateWindowExA(0, register_class("pixart"), caption, dwStyle,
+	hwnd = CreateWindowExA(0, register_class("pixart"), 0, dwStyle,
 		x, y,
 		MinimumRect.right - MinimumRect.left,
 		MinimumRect.bottom - MinimumRect.top,

@@ -27,20 +27,11 @@
     <ClCompile Include="io_stream.cpp">
       <Filter>Support</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Logic</Filter>
-    </ClCompile>
     <ClCompile Include="point.cpp">
       <Filter>Support</Filter>
     </ClCompile>
     <ClCompile Include="stringbuilder.cpp">
       <Filter>Support</Filter>
-    </ClCompile>
-    <ClCompile Include="win_draw.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="win_io_file.cpp">
-      <Filter>Platform</Filter>
     </ClCompile>
     <ClCompile Include="draw_text.cpp">
       <Filter>Support</Filter>
@@ -66,12 +57,6 @@
     <ClCompile Include="surface_serial.cpp">
       <Filter>Support</Filter>
     </ClCompile>
-    <ClCompile Include="editor.cpp">
-      <Filter>Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="font_util.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="main_util.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -87,14 +72,29 @@
     <ClCompile Include="zip.cpp">
       <Filter>Support</Filter>
     </ClCompile>
-    <ClCompile Include="scenes.cpp">
-      <Filter>Logic</Filter>
-    </ClCompile>
     <ClCompile Include="draw_controls.cpp">
       <Filter>Support</Filter>
     </ClCompile>
     <ClCompile Include="draw_focus.cpp">
       <Filter>Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\editor.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\main.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\scenes.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\font_util.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win_draw.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win_io_file.cpp">
+      <Filter>Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,20 +119,20 @@
     <ClInclude Include="stringbuilder.h">
       <Filter>Support</Filter>
     </ClInclude>
-    <ClInclude Include="win.h">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="log.h">
       <Filter>Support</Filter>
-    </ClInclude>
-    <ClInclude Include="font_util.h">
-      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="sprite_util.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="bstream.h">
       <Filter>Support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\font_util.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win.h">
+      <Filter>Platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\projects\pixart\pixart;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -139,6 +140,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\platform\font_util.cpp" />
+    <ClCompile Include="..\platform\win_draw.cpp" />
+    <ClCompile Include="..\platform\win_io_file.cpp" />
+    <ClCompile Include="..\test\editor.cpp" />
+    <ClCompile Include="..\test\main.cpp" />
+    <ClCompile Include="..\test\scenes.cpp" />
     <ClCompile Include="bstream.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="crt.cpp" />
@@ -148,38 +155,32 @@
     <ClCompile Include="draw_focus.cpp" />
     <ClCompile Include="draw_text.cpp" />
     <ClCompile Include="draw_textf.cpp" />
-    <ClCompile Include="editor.cpp" />
-    <ClCompile Include="font_util.cpp" />
     <ClCompile Include="io_stream.cpp" />
     <ClCompile Include="log.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="main_util.cpp" />
     <ClCompile Include="png.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="resource_dynamic.cpp" />
     <ClCompile Include="scale2x.cpp" />
-    <ClCompile Include="scenes.cpp" />
     <ClCompile Include="sprite_util.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
     <ClCompile Include="surface_serial.cpp" />
     <ClCompile Include="szdup.cpp" />
-    <ClCompile Include="win_draw.cpp" />
-    <ClCompile Include="win_io_file.cpp" />
     <ClCompile Include="zip.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\platform\font_util.h" />
+    <ClInclude Include="..\platform\win.h" />
     <ClInclude Include="bstream.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="crt.h" />
     <ClInclude Include="draw.h" />
-    <ClInclude Include="font_util.h" />
     <ClInclude Include="io_stream.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="rect.h" />
     <ClInclude Include="sprite_util.h" />
     <ClInclude Include="stringbuilder.h" />
-    <ClInclude Include="win.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
