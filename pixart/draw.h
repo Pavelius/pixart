@@ -157,6 +157,7 @@ extern int				width, height;
 extern const sprite*	font; // Currently selected font
 extern double			linw;
 extern char				link[4096];
+extern long				text_params[16];
 extern color*			palt;
 extern int				tab_pixels;
 int						aligned(unsigned state, int string_width);

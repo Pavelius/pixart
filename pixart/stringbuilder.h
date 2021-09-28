@@ -49,7 +49,7 @@ public:
 	bool				ispos(const char* v) const { return p == v; }
 	static unsigned char lower(unsigned char sym);
 	void				lower();
-	static const char*	read(const char* p, char* result, const char* result_end);
+	static const char*	read(const char* p, stringbuilder& sb);
 	static const char*	read(const char* p, long& result);
 	static const char*	read(const char* p, int& result);
 	void				set(char* v) { p = v; p[0] = 0; }

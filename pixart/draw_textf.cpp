@@ -4,6 +4,7 @@
 using namespace draw;
 
 int draw::tab_pixels = 0;
+long draw::text_params[16];
 
 static bool match(const char** string, const char* name) {
 	int n = zlen(name);
@@ -134,8 +135,8 @@ static const char* textfln(const char* p, color c1, int* max_width) {
 		auto pre_caret = caret;
 		if(p[0] == ':' && p[1] >= 'a' && p[1] <= 'z') {
 			p++;
-			char temp[128];
-			p = stringbuilder::read(p, temp, temp + sizeof(temp) - 1);
+			char temp[128]; stringbuilder sb(temp);
+			p = stringbuilder::read(p, sb);
 			if(*p == ':')
 				p++;
 			w = 0;
@@ -185,6 +186,41 @@ static const char* textfln(const char* p, color c1, int* max_width) {
 	return p;
 }
 
+static void render_image() {
+	auto name = (const char*)text_params[0];
+	auto id = text_params[1];
+	auto folder = (const char*)text_params[2];
+	auto ps = gres(name, folder);
+	if(!ps)
+		return;
+	image(caret.x, caret.y, ps, id, 0);
+	caret.y += ps->get(id).getrect(caret.x, caret.y, 0).height() + 2;
+}
+
+static const char* parse_command(const char* p) {
+	char temp[512]; stringbuilder sb(temp);
+	memset(text_params, 0, sizeof(text_params));
+	long count = 0;
+	p = stringbuilder::read(p, sb); sb.addsz();
+	p = skipsp(p);
+	while(*p && !(*p == 13 || *p == 10)) {
+		auto p1 = p;
+		p = stringbuilder::read(p, text_params[count]);
+		if(p == p1) {
+			text_params[count] = (long)sb.get();
+			p = stringbuilder::read(p, sb); sb.addsz();
+		}
+		p = skipsp(p);
+		if(p == p1)
+			break;
+		count++;
+	}
+	p = skipspcr(p);
+	if(equal(temp, "image"))
+		render_image();
+	return p;
+}
+
 void draw::textf(const char* string, int* max_width, int min_height, int* cashe_height, const char** cashe_string) {
 	auto push_fore = fore;
 	auto push_font = font;
@@ -203,7 +239,11 @@ void draw::textf(const char* string, int* max_width, int min_height, int* cashe_
 			*cashe_string = p;
 			*cashe_height = caret.y - y0;
 		}
-		if(match(&p, "###")) { // Header 3
+		if(match(&p, "---")) { // line
+			auto push_caret = caret;
+			line(caret.x + width, caret.y);
+			caret = push_caret;
+		} else if(match(&p, "###")) { // Header 3
 			font = metrics::h3;
 			p = skipsp(p);
 			p = textfln(p, colors::h3, &mw2);
@@ -254,8 +294,14 @@ void draw::textf(const char* string, int* max_width, int min_height, int* cashe_
 			caret.x += texth();
 			auto push_width = width;
 			width -= texth();
-			p = textfln(p, color_text, &mw2);
+			int mw3 = 0;
+			p = textfln(p, color_text, &mw3);
 			width = push_width;
+			mw3 += texth();
+			if(mw2 < mw3)
+				mw2 = mw3;
+		} else if(match(&p, "$")) { // Command
+			p = parse_command(p);
 		} else
 			p = textfln(p, color_text, &mw2);
 		font = metrics::font;

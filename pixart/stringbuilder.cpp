@@ -48,7 +48,7 @@ const char* stringbuilder::read(const char* p, long& value) {
 		return 0;
 	bool sign = false;
 	// Установка знака
-	if(*p == '-') {
+	if(*p == '-' && isnum(p[1])) {
 		sign = true;
 		p++;
 	}
@@ -287,30 +287,31 @@ void stringbuilder::addidentifier(const char* identifier) {
 	}
 }
 
-const char* stringbuilder::read(const char* p, char* ps, const char* pe) {
+const char* stringbuilder::read(const char* p, stringbuilder& sb) {
 	if(*p == '(') {
 		p++;
 		while(*p && *p != ')') {
-			if(ps < pe)
-				*ps++ = *p;
+			if(sb.p < sb.pe)
+				*sb.p++ = *p;
+			p++;
 		}
 		if(*p == ')')
 			p++;
 	} else {
 		while(*p && (ischa(*p) || isnum(*p) || *p == '_')) {
-			if(ps < pe)
-				*ps++ = *p++;
+			if(sb.p < sb.pe)
+				*sb.p++ = *p++;
 			else
 				break;
 		}
 	}
-	*ps = 0;
+	*sb.p = 0;
 	return p;
 }
 
 const char* stringbuilder::readvariable(const char* p) {
-	char temp[260];
-	p = read(p, temp, temp + sizeof(temp) - 1);
+	char temp[260]; stringbuilder sb(temp);
+	p = read(p, sb);
 	addidentifier(temp);
 	return p;
 }

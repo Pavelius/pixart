@@ -174,10 +174,25 @@ static void test_fonts() {
 	push_fore = fore;
 }
 
+static void test_format_string() {
+	auto push_width = width;
+	auto push_fore = fore;
+	fore = colors::text;
+	width = 320;
+	char temp[4096]; stringbuilder sb(temp);
+	sb.addn("$image brothel 0 (art/scene)");
+	sb.addn("###Место увлечений");
+	sb.addn("Рисуем текст, который [выводится] на несколько **абзацев** вниз. Причем перед ним рисуется рисунок. А текст описания состоит из нескольких предложений и содержит форматирование.");
+	textf(temp);
+	width = push_width;
+	fore = push_fore;
+}
+
 void zoom_editor() {
 	clearwindow();
-	//test_fonts();
-	//return;
+	caret = {4, 4};
+	test_format_string();
+	return;
 	auto push_caret = caret;
 	caret = {64, 0}; zoom_view();
 	caret = {0, 64}; color_picker();
