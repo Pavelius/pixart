@@ -1901,5 +1901,6 @@ void draw::initialize(const char* title) {
 	draw::font = metrics::font;
 	draw::fore = colors::text;
 	draw::fore_stroke = colors::blue;
-	draw::create(400, 300, title);
+	draw::create(400, 300);
+	draw::setcaption(title);
 }

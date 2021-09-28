@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="gh" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option platforms="Unix;" />
+				<Option output="pixart_debug" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../objects/debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="pixart" />
+				</Compiler>
+				<Linker>
+					<Add library="X11" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/pixart" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../objects/release/pixart" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="pixart/bstream.cpp" />
+		<Unit filename="pixart/bstream.h" />
+		<Unit filename="pixart/color.cpp" />
+		<Unit filename="pixart/color.h" />
+		<Unit filename="pixart/crt.cpp" />
+		<Unit filename="pixart/crt.h" />
+		<Unit filename="pixart/crt_translate.cpp" />
+		<Unit filename="pixart/draw.cpp" />
+		<Unit filename="pixart/draw.h" />
+		<Unit filename="pixart/draw_controls.cpp" />
+		<Unit filename="pixart/draw_focus.cpp" />
+		<Unit filename="pixart/draw_text.cpp" />
+		<Unit filename="pixart/draw_textf.cpp" />
+		<Unit filename="pixart/io_stream.cpp" />
+		<Unit filename="pixart/io_stream.h" />
+		<Unit filename="pixart/log.cpp" />
+		<Unit filename="pixart/log.h" />
+		<Unit filename="pixart/png.cpp" />
+		<Unit filename="pixart/point.cpp" />
+		<Unit filename="pixart/point.h" />
+		<Unit filename="pixart/rect.h" />
+		<Unit filename="pixart/resource_dynamic.cpp" />
+		<Unit filename="pixart/scale2x.cpp" />
+		<Unit filename="pixart/stringbuilder.cpp" />
+		<Unit filename="pixart/stringbuilder.h" />
+		<Unit filename="pixart/surface_serial.cpp" />
+		<Unit filename="pixart/szdup.cpp" />
+		<Unit filename="pixart/zip.cpp" />
+		<Unit filename="platform/nix_draw.cpp" />
+		<Unit filename="platform/nix_io_file.cpp" />
+		<Unit filename="test/editor.cpp" />
+		<Unit filename="test/main.cpp" />
+		<Unit filename="test/scenes.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

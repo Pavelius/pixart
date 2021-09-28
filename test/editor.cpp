@@ -174,6 +174,9 @@ static void test_fonts() {
 	push_fore = fore;
 }
 
+static void test_press() {
+}
+
 static void test_format_string() {
 	auto push_width = width;
 	auto push_fore = fore;
@@ -186,6 +189,7 @@ static void test_format_string() {
 	textf(temp);
 	width = push_width;
 	fore = push_fore;
+	buttonf("Test button", (void*)test_press, 0);
 }
 
 void zoom_editor() {

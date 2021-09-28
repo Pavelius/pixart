@@ -34,7 +34,7 @@ extern "C" void						srand(unsigned seed); // Set random seed
 extern "C" int						strcmp(const char* s1, const char* s2) noexcept(true); // Compare two strings
 extern "C" long long				time(long long* seconds);
 
-enum class codepages { None, W1251, UTF8, U16BE, U16LE };
+enum class codepages { NoCodepage, W1251, UTF8, U16BE, U16LE };
 namespace metrics {
 const codepages						code = codepages::W1251;
 }

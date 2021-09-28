@@ -173,7 +173,7 @@ void					cbsetptr();
 void					circle(int radius);
 void					circlef(int radius);
 void					clearwindow();
-void					create(int width, int height, const char* caption);
+void                    create(int canvas_width, int canvas_height);
 bool					dragactive(const void* p);
 bool					dragactive();
 void					dragbegin(const void* p);
@@ -200,6 +200,7 @@ int						rawinput();
 void					rectb(); // Draw rectangle border
 void					rectf(); // Draw rectangle area. Right and bottom side is one pixel less.
 void					rectx(); // Draw pointed rectangle border
+void                    setcaption(const char* format);
 void					setclip(rect rc);
 inline void				setclip() { clipping.set(0, 0, getwidth(), getheight()); }
 void					setclipdf();

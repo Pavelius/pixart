@@ -1,0 +1,143 @@
+# depslib dependency file v1.0
+1632815689 source:/home/ws-1113/projects/pixart/pixart/bstream.cpp
+	"bstream.h"
+
+1632815689 /home/ws-1113/projects/pixart/pixart/bstream.h
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/color.cpp
+	"color.h"
+	"crt.h"
+
+1632815689 /home/ws-1113/projects/pixart/pixart/color.h
+
+1632816190 /home/ws-1113/projects/pixart/pixart/crt.h
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/crt.cpp
+	"crt.h"
+	"io_stream.h"
+
+1632815689 /home/ws-1113/projects/pixart/pixart/io_stream.h
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/crt_translate.cpp
+	"crt.h"
+	"io_stream.h"
+	"log.h"
+	"stringbuilder.h"
+
+1632815689 /home/ws-1113/projects/pixart/pixart/log.h
+
+1632815689 /home/ws-1113/projects/pixart/pixart/stringbuilder.h
+
+1632817896 source:/home/ws-1113/projects/pixart/pixart/draw.cpp
+	"color.h"
+	"crt.h"
+	"draw.h"
+
+1632817888 /home/ws-1113/projects/pixart/pixart/draw.h
+	"color.h"
+	"point.h"
+	"stringbuilder.h"
+
+1632815689 /home/ws-1113/projects/pixart/pixart/point.h
+	"rect.h"
+
+1632815689 /home/ws-1113/projects/pixart/pixart/rect.h
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/draw_controls.cpp
+	"draw.h"
+
+1632818355 source:/home/ws-1113/projects/pixart/pixart/draw_focus.cpp
+	"crt.h"
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/draw_text.cpp
+	"draw.h"
+
+1632818333 source:/home/ws-1113/projects/pixart/pixart/draw_textf.cpp
+	"crt.h"
+	"draw.h"
+
+1632818465 source:/home/ws-1113/projects/pixart/pixart/editor.cpp
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/io_stream.cpp
+	"crt.h"
+	"io_stream.h"
+	"stringbuilder.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/log.cpp
+	"io_stream.h"
+	"log.h"
+	"stringbuilder.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/main.cpp
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/png.cpp
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/point.cpp
+	"point.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/resource_dynamic.cpp
+	"crt.h"
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/scale2x.cpp
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/scenes.cpp
+	"crt.h"
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/stringbuilder.cpp
+	"crt.h"
+	"stringbuilder.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/surface_serial.cpp
+	"draw.h"
+	"io_stream.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/szdup.cpp
+	"crt.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/pixart/zip.cpp
+	"crt.h"
+
+1632818197 source:/home/ws-1113/projects/pixart/pixart/nix_draw.cpp
+	<X11/keysym.h>
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/XKBlib.h>
+	"crt.h"
+	"draw.h"
+
+1630567196 source:/home/ws-1113/projects/pixart/pixart/nix_io_file.cpp
+	<cstdio>
+	<unistd.h>
+	"crt.h"
+	"io_stream.h"
+
+1632819455 source:/home/ws-1113/projects/pixart/test/main.cpp
+	"draw.h"
+
+1632818197 source:/home/ws-1113/projects/pixart/platform/nix_draw.cpp
+	<X11/keysym.h>
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/XKBlib.h>
+	"crt.h"
+	"draw.h"
+
+1630567196 source:/home/ws-1113/projects/pixart/platform/nix_io_file.cpp
+	<cstdio>
+	<unistd.h>
+	"crt.h"
+	"io_stream.h"
+
+1632818465 source:/home/ws-1113/projects/pixart/test/editor.cpp
+	"draw.h"
+
+1632815689 source:/home/ws-1113/projects/pixart/test/scenes.cpp
+	"crt.h"
+	"draw.h"
+

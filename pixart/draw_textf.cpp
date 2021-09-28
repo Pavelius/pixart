@@ -194,7 +194,7 @@ static void render_image() {
 	if(!ps)
 		return;
 	image(caret.x, caret.y, ps, id, 0);
-	caret.y += ps->get(id).getrect(caret.x, caret.y, 0).height() + 2;
+	caret.y += ps->get(id).getrect(caret.x, caret.y, 0).height() + texth()/2;
 }
 
 static const char* parse_command(const char* p) {
