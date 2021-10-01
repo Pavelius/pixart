@@ -27,6 +27,7 @@ color				colors::tips::text;
 color				colors::tips::back;
 // Color context and font context
 fnevent				draw::domodal;
+fnevent				draw::dobackground;
 color				draw::fore;
 color				draw::fore_stroke;
 int					draw::width;
@@ -1794,6 +1795,8 @@ void draw::startscene(fnevent visualize) {
 	if(!visualize)
 		return;
 	while(ismodal()) {
+		if(dobackground)
+			dobackground();
 		visualize();
 		domodal();
 	}

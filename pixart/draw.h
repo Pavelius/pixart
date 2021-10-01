@@ -150,7 +150,7 @@ struct surface {
 };
 extern surface*			canvas;
 extern rect				clipping; // Clipping area
-extern fnevent			domodal;
+extern fnevent			domodal, dobackground;
 extern point			dragmouse, caret;
 extern color			fore, fore_stroke;
 extern int				width, height;

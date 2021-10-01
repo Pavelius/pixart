@@ -1,6 +1,7 @@
 #include "draw.h"
 
 void load_buffer();
+void prog_background();
 void zoom_editor();
 void main_util();
 void sprite_viewer();
@@ -11,6 +12,7 @@ int main() {
 #endif // _DEBUG
 	draw::initialize("Test Pixart Games");
 	load_buffer();
+	draw::dobackground = prog_background;
 	draw::startscene(zoom_editor);
 	return 0;
 }

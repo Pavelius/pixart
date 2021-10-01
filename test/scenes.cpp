@@ -26,9 +26,14 @@ static void avatars(int i) {
 	}
 }
 
+void prog_background() {
+	clearwindow();
+	caret.x = 8;
+	caret.y = 8;
+}
+
 void sprite_viewer() {
 	static int current_frame;
-	clearwindow();
 	if(res_items && res_items->count>0) {
 		if(current_frame < 0)
 			current_frame = 0;

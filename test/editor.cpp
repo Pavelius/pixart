@@ -193,8 +193,6 @@ static void test_format_string() {
 }
 
 void zoom_editor() {
-	clearwindow();
-	caret = {4, 4};
 	test_format_string();
 	return;
 	auto push_caret = caret;
